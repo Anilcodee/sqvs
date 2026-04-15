@@ -1,0 +1,23 @@
+{
+  "name": "sqvs-server",
+  "version": "1.0.0",
+  "description": "SQVS Backend API",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "exceljs": "^4.4.0",
+    "express": "^4.21.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.1.1",
+    "mysql2": "^3.11.0",
+    "pdfkit": "^0.17.2",
+    "qrcode": "^1.5.4"
+  }
+}

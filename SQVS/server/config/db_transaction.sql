@@ -1,0 +1,67 @@
+USE SQVS;
+
+-- SCENARIO 1: COMMIT (Successful Atomic Transaction)
+
+START TRANSACTION;
+
+INSERT INTO VERIFICATION_REQUEST 
+    (NED_ID, Verifier_ID, Fee_ID, Purpose, Expiry_Date, Status) 
+VALUES 
+    ('NED-O2YTK-92JME', 3, 1, 'Employment check for Wipro Kolkata UI Demo', '2027-06-30', 'Pending');
+INSERT INTO PAYMENT_TRANSACTION 
+    (Request_ID, Amount, Payment_Method, Payment_Status, Payment_Gateway_Ref, Receipt_Number) 
+VALUES 
+    (LAST_INSERT_ID(), 450.00, 'UPI', 'Completed', 'TXN-UI-LAB-001', 'REC-UI-LAB-001');
+
+COMMIT;
+
+SELECT 'Scenario 1 Success' AS Result, Request_ID, NED_ID, Status FROM VERIFICATION_REQUEST WHERE NED_ID = 'NED-O2YTK-92JME' ORDER BY Request_Date DESC LIMIT 1;
+
+
+-- SCENARIO 2: ROLLBACK (Handling Failures & Maintaining Integrity)
+
+START TRANSACTION;
+
+UPDATE VERIFICATION_REQUEST SET Status = 'Completed' WHERE Request_ID = 4;
+
+INSERT INTO VERIFICATION_CERTIFICATE (Request_ID, Certificate_Number, Issue_Date, Valid_Until) 
+VALUES (4, 'V-CERT-LT3CZ-DOPS4', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 1 YEAR));
+
+ROLLBACK;
+
+SELECT 'Scenario 2 Rollback' AS Result, Request_ID, Status FROM VERIFICATION_REQUEST WHERE Request_ID = 4;
+
+
+-- SCENARIO 3: ROW-LEVEL LOCKING (Blocking Behavior)
+
+START TRANSACTION;
+SELECT * FROM VERIFICATION_REQUEST WHERE Request_ID = 17 FOR UPDATE;
+
+START TRANSACTION;
+SELECT * FROM VERIFICATION_REQUEST WHERE Request_ID = 17 FOR UPDATE;
+
+COMMIT;
+
+
+-- SCENARIO 4: DEADLOCK (Circular Dependency)
+ 
+START TRANSACTION;
+UPDATE VERIFICATION_REQUEST SET Status = 'In_Progress' WHERE Request_ID = 19;
+
+START TRANSACTION;
+UPDATE VERIFICATION_REQUEST SET Status = 'In_Progress' WHERE Request_ID = 20;
+
+UPDATE VERIFICATION_REQUEST SET Status = 'In_Progress' WHERE Request_ID = 20; 
+
+UPDATE VERIFICATION_REQUEST SET Status = 'In_Progress' WHERE Request_ID = 19; 
+
+
+-- SCENARIO 5: DIRTY READ (Isolation Levels)
+
+START TRANSACTION;
+UPDATE PAYMENT_TRANSACTION SET Payment_Status = 'Completed' WHERE Transaction_ID = 12;
+
+SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+SELECT Transaction_ID, Payment_Status FROM PAYMENT_TRANSACTION WHERE Transaction_ID = 12;
+
+ROLLBACK;
