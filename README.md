@@ -4,6 +4,10 @@ A full-stack web application that allows students to register their academic qua
 
 ---
 
+## 🌐 Live Demo
+
+[https://sqvs.vercel.app/](https://sqvs.vercel.app/)
+
 ## Tech Stack
 
 | Layer | Technology |
