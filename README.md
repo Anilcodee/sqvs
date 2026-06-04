@@ -1,4 +1,4 @@
-# SQVS — Student Qualification Verification System
+# SQVS — Student Qualification Verification System - **Project**
 
 A full-stack web application that allows students to register their academic qualifications, institutions to enter and verify records, external organizations to request verification, and ministry officials to oversee the entire ecosystem.
 
