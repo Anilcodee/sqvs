@@ -1,4 +1,4 @@
-# Database Transaction Experiments for SQVS
+# Database Transaction Experiments for SQVS - Project
 
 This document explains the specific database transactions that will be executed to demonstrate atomic operations and concurrency control in the Student Qualification Verification System (SQVS).
 
