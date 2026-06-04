@@ -1,6 +1,6 @@
 # Database Transaction Experiments for SQVS
 
-This document explains the specific database transactions that will be executed to demonstrate atomic operations and concurrency control in the Student Qualification Verification System (SQVS).
+This document explains the specific database transactions that will be executed to demonstrate atomic operations and concurrency control in the Student Qualification Verification System (SQVS APPLICATION).
 
 ## 1. Successful Transaction (COMMIT)
 **Goal**: Demonstrate how multiple related operations succeed together.
